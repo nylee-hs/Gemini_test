@@ -5,6 +5,8 @@ import logging
 
 
 st.title('여행 도우미 챗봇')
+st.subheader('저는 당신의 여행계획에 정보를 제공해주는 도우미 챗봇 입니다. 궁금하신 점이 있으면 물어봐주세요.', divider=True)
+st.markdown('우선 당신의 성격을 물어볼 예정입니다. 성격에 대해 (외향적 또는 내향적), (감정적 또는 사실적) 중 하나씩 선택하여 입력해주면 됩니다. ')
 api_key = st.secrets['google_api_key']
 
 # def hello_msg():
@@ -36,8 +38,8 @@ def load_model():
 
 model = load_model()
 
-with st.chat_message("ai"):
-    st.write("안녕하세요. 저는 여행지 추천 에이전트 입니다. 무엇을 도와드릴까요?")
+# with st.chat_message("ai"):
+#     st.write("안녕하세요. 저는 여행지 추천 에이전트 입니다. 무엇을 도와드릴까요?")
 
 ##사용자별 세션관리
 if 'chat_session' not in st.session_state:
