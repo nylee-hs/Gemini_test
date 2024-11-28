@@ -7,6 +7,6 @@ pw = st.text_input("비밀번호를 입력하세요.")
 
 if pw == st.secrets['manager_pw']:
     df = dbm.get_result()
-    st.write(df)
+    st.dataframe(df, use_container_width=True)
 # else:
 #     st.write('비밀번호가 틀렸습니다.')
