@@ -1,6 +1,7 @@
 import sqlite3
 import streamlit as st
 import pandas as pd
+import datetime
 
 # SQLite 데이터베이스 연결 함수
 def create_connection():
@@ -20,7 +21,8 @@ def create_table():
                 q3 INTEGER NOT NULL,
                 q4 INTEGER NOT NULL,
                 q5 INTEGER NOT NULL,
-                q6 INTEGER NOT NULL
+                q6 INTEGER NOT NULL,
+                dtime DATETIME NOT NULL
             )
         ''')
     conn.commit()
@@ -34,11 +36,12 @@ def insert_response(q_list):
     print('>>>>>', q_list)
     for i in range(len(q_list)):
         if i == len(q_list)-1:
-            q_label += f'q{i+1}'
+            q_label += f'q{i+1}, dtime'
         else:
             q_label += f'q{i + 1}, '
 
     st.write(q_label)
+    q_list.append(datetime.datetime.now())
     q_values = ', '.join(['?' for x in q_list])
     sql_str = f'INSERT INTO results ({q_label}) VALUES ({q_values})'
     st.write(sql_str)
