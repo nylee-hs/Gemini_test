@@ -13,15 +13,15 @@ def create_table():
     conn = create_connection()
     cursor = conn.cursor()
 
+    ## 테이블의 구조 p1~px: 성격측정 항목 / r1~rx: 사후 설문항목
     cursor.execute('''
             CREATE TABLE IF NOT EXISTS results (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                q1 INTEGER NOT NULL,
-                q2 INTEGER NOT NULL,
-                q3 INTEGER NOT NULL,
-                q4 INTEGER NOT NULL,
-                q5 INTEGER NOT NULL,
-                q6 INTEGER NOT NULL,
+                p1 INTEGER NOT NULL, p2 INTEGER NOT NULL, p3 INTEGER NOT NULL, p4 INTEGER NOT NULL,
+                p5 INTEGER NOT NULL, p6 INTEGER NOT NULL,
+                r1 INTEGER NOT NULL, r2 INTEGER NOT NULL, r3 INTEGER NOT NULL, r4 INTEGER NOT NULL,
+                r5 INTEGER NOT NULL, r6 INTEGER NOT NULL,
+                per_1 TEXT NOT NULL, per_2 TEXT NOT NULL,
                 dtime DATETIME NOT NULL
             )
         ''')
@@ -34,19 +34,16 @@ def insert_response(q_list):
     cursor = conn.cursor()
     q_label = ''
     print('>>>>>', q_list)
-    for i in range(len(q_list)):
-        if i == len(q_list)-1:
-            q_label += f'q{i+1}, dtime'
-        else:
-            q_label += f'q{i + 1}, '
+    d_label = 'p1, p2, p3, p4, p5, p6, r1, r2, r3, r4, r5, r6, per_1, per_2, dtime'
 
-    st.write(q_label)
-    q_list.append(datetime.datetime.now())
-    q_values = ', '.join(['?' for x in q_list])
-    sql_str = f'INSERT INTO results ({q_label}) VALUES ({q_values})'
-    st.write(sql_str)
-    st.write(tuple(q_list))
-    cursor.execute(sql_str, tuple(q_list))
+    n_time = datetime.datetime.now()
+    now_time = n_time.strftime('%Y-%m-%d %H:%M:%S')
+    q_list.append(now_time)
+    # q_values = ', '.join(['?' for x in q_list])
+    sql_str = f'INSERT INTO results ({d_label}) VALUES {tuple(q_list)}'
+    # st.write(sql_str)
+    # st.write(tuple(q_list))
+    cursor.execute(sql_str)
     conn.commit()
     conn.close()
 

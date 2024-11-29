@@ -2,7 +2,22 @@ import streamlit as st
 import pandasql as psql
 import DBManager as dbm
 
+st.markdown(
+    '''
+    ## 설문에 참여해 주셔서 감사합니다!  
+    여러분의 소중한 의견은 저희 연구에 큰 도움이 됩니다.   
+    추가 질문이나 의견이 있으시면 언제든지 아래의 연락처로 연락해 주세요.  
+     
+    이남연 교수(nylee@hs.ac.kr)  
+    김준환 교수()
+    
+    감사합니다!   
+    '''
+)
+
 result = ''
+per_1 = ''
+per_2 = ''
 if 'r1' in st.session_state:
     survey = st.session_state.r1
     survey = survey.replace('매우 그렇지 않다', 1)
@@ -12,12 +27,20 @@ if 'r1' in st.session_state:
     survey = survey.replace('매우 그렇다', 5)
     result = survey
     # st.write(result)
+if 'p1' in st.session_state:
+    per_1 = st.session_state.p1
+    per_2 = st.session_state.p2
+    # st.write(per_1, per_2)
 
-def get_response(survey):
+
+def get_response(survey, per_1, per_2):
     values = survey.loc['value']
-    st.write(values.tolist())
-    return values.tolist()
+    values_list = values.tolist()
+    values_list.append(per_1)
+    values_list.append(per_2)
+    # st.write(values_list)
+    return values_list
 
 
 dbm.create_table()
-dbm.insert_response(get_response(result))
+dbm.insert_response(get_response(result, per_1, per_2))

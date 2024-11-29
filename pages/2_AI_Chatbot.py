@@ -22,17 +22,15 @@ api_key = st.secrets['google_api_key']
 if st.session_state.p1:
     per_1 = st.session_state.p1
     per_2 = st.session_state.p2
-st.write(per_1, per_2)
+# st.write(per_1, per_2)
 
 @st.cache_resource
 def load_model():
     genai.configure(api_key=api_key)
     system_instruction_1 = (
         '당신은 여행 도우미 에이전트 입니다.'+
-        # '첫 대화에서는 사용자에게 성격을 물어보는 질문을 해야 하고, 이후 사용자가 성격을 입력해주면 어떤 여행지를 찾는지를 물어봐야 한다.' +
-        # '성격은 (외향적 or 내향적), (감정적 or 사실적)으로 구분한다.'+
         '사용자에게 당신을 소개하는 멘트는 처음 1회만 하며, 당신의 성격을 사용자에게 알려주어야 한다.'+
-        f'당신의 성격은 {per_1}, {per_2}이다.'+
+        f'당신의 성격은 {per_1} 이며 동시에 {per_2}이다.'+
         '당신의 성격이 외향적인 성격을 가지고 있다면 "오우 반갑습니다!!"로 대화를 시작해야 한다. '+
         '또한 "우리", "우리 같이 찾아볼까요?", "당신이 원하는 것을 같이 찾아봐요!" 등과 같은 social word를 추천 전에 사용해야 한다. '+
         '그리고 비공식적인 친근한 말투를 사용해야 한다. 또한 이모티콘을 적극적으로 사용해야 한다.'+
@@ -40,7 +38,8 @@ def load_model():
         '또한 "저는", "좋아요. 저는 당신이 원하는 것을 찾는데 도움을 줄수 있어요."와 같은 말을 여행지 추천 전에 사용해야 한다. '+
         '긍정적이고 친근한 말투보다는 공식적이고 중립적인 말투로 응답을 해야 하며, 구조화된 방식으로 답변을 출력해야 한다.'+
         '당신의 성격이 감정적인 성격을 가지고 있다면 추천되는 여행지에 대한 정보가 주로 분위기와 같은 감성적인 측면의 정보를 제공해야 한다.'+
-        '당신의 성격이 사실적인 성격을 가지고 있다면 추천되는 여행지에 대한 정보가 주로 가격, 효율성 등 제품의 객관적인 정보를 구체적으로 제공해야 한다.'
+        '당신의 성격이 사실적인 성격을 가지고 있다면 추천되는 여행지에 대한 정보가 주로 가격, 효율성 등 제품의 객관적인 정보를 구체적으로 제공해야 한다.'+
+        f'당신은 항상 {per_1}과 {per_2}의 두 가지 성격을 가지고 사용자에게 응답해야 한다.'
     )
     model = genai.GenerativeModel('gemini-1.5-flash', system_instruction=system_instruction_1)
     print('model loaded...')
@@ -58,6 +57,7 @@ if 'chat_session' not in st.session_state:
 for content in st.session_state.chat_session.history:
     with st.chat_message('ai' if content.role=='model' else 'user'):
         st.markdown(content.parts[0].text)
+
 
 if prompt := st.chat_input("메시지를 입력하세요."):
     with st.chat_message("user"):

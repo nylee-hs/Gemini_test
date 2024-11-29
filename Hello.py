@@ -6,7 +6,10 @@ import streamlit as st
 # )
 st.sidebar.header('안녕하세요')
 st.write('# Welcome to Travel Recommendation with AI 👋')
-# st.sidebar.success('다음의 절차에 따라 진행을 부탁합니다.')
+st.sidebar.write('''
+본 페이지는 연구목적으로 진행되는 페이지입니다.\n
+궁금하신 점이 있으면 이남연교수(nylee@hs.ac.kr)에게 연락을 주시기 바랍니다.''')
+
 st.markdown(
     '''
     본 페이지는 사용자의 성격에 맞춰 AI 챗봇이 여행과 관련한 추천 정보를 제공하는 페이지입니다.\n

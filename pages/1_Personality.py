@@ -2,25 +2,27 @@ import streamlit as st
 import streamlit_survey as ss
 import pandas as pd
 
-# 사용자 성격 확인하는 함수
-def user_personlaity(user_json):
+# 사용자 성격 확인하는 함수(q_size = 첫번째 성격 설문 항목의 수)
+def user_personlaity(user_json, q_size):
     df = pd.read_json(user_json)
     df = df.replace('매우 그렇지 않다', 1)
     df = df.replace('그렇지 않다', 2)
     df = df.replace('보통이다', 3)
     df = df.replace('그렇다', 4)
     df = df.replace('매우 그렇다', 5)
-    p1 = df.iloc[2, 0:3].mean()
-    p2 = df.iloc[2, 3:].mean()
-    st.write(p1, p2)
-    if p1 > 3:
+
+    # 성격 측정 설문 항목의 갯수에 따라 아래의 값이 변경되어야 함
+    p1 = df.iloc[2, 0:q_size].mean()
+    p2 = df.iloc[2, q_size:].mean()
+    # st.write(p1, p2)
+    if p1 >= 3:
         p1 = 'E'
     else:
         p1 = 'I'
-    if p2 > 3:
+    if p2 >= 3:
         p2 = 'T'
     else:
-        p2 = 'E'
+        p2 = 'F'
 
     # st.write(p1, p2)
     # st.dataframe(df, use_container_width=True)
@@ -30,7 +32,7 @@ def user_personlaity(user_json):
     pages.current = 0
     st.switch_page('pages/2_AI_Chatbot.py')
 
-survey = ss.StreamlitSurvey()
+survey_per = ss.StreamlitSurvey()
 
 st.set_page_config(
     page_title='User Personality',
@@ -44,7 +46,7 @@ st.sidebar.write('''
     
     ''')
 
-pages = survey.pages(2, on_submit=lambda: user_personlaity(survey.to_json()))
+pages = survey_per.pages(2, on_submit=lambda: user_personlaity(survey_per.to_json(), 3))
 pages.submit_button = pages.default_btn_submit("설문완료")
 pages.prev_button = pages.default_btn_previous("이전")
 pages.next_button = pages.default_btn_next("다음")
@@ -61,22 +63,22 @@ with pages:
     if pages.current == 0:
         st.markdown('### 외향성(extraversion)-내향성(intraversion) 측정 설문')
         st.divider()
-        survey.radio('1\. 처음 보는 사람들과 쉽게 이야기하거나 친해 지는 편이다.', options=['매우 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'],
-                     horizontal=True, id='q1')
+        survey_per.radio('1\. 처음 보는 사람들과 쉽게 이야기하거나 친해 지는 편이다.', options=['매우 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'],
+                     horizontal=True, id='q_p1')
         st.write('''
         
         
         
         ''')
-        survey.radio('2\. 처음 보는 사람들과 쉽게 이야기하거나 친해 지는 편이다.', options=['매우 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'],
-                     horizontal=True, id='q2')
+        survey_per.radio('2\. 처음 보는 사람들과 쉽게 이야기하거나 친해 지는 편이다.', options=['매우 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'],
+                     horizontal=True, id='q_p2')
         st.write('''
 
 
 
         ''')
-        survey.radio('3\. 처음 보는 사람들과 쉽게 이야기하거나 친해 지는 편이다.', options=['매우 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'],
-                     horizontal=True, id='q3')
+        survey_per.radio('3\. 처음 보는 사람들과 쉽게 이야기하거나 친해 지는 편이다.', options=['매우 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'],
+                     horizontal=True, id='q_p3')
         st.write('''
 
 
@@ -85,22 +87,22 @@ with pages:
     if pages.current == 1:
         st.markdown('### 사고(thinking)-감정(feeling) 측정 설문')
         st.divider()
-        survey.radio('1\. 처음 보는 사람들과 쉽게 이야기하거나 친해 지는 편이다.', options=['매우 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'],
-                     horizontal=True, id='q4')
+        survey_per.radio('1\. 처음 보는 사람들과 쉽게 이야기하거나 친해 지는 편이다.', options=['매우 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'],
+                     horizontal=True, id='q_p4')
         st.write('''
 
 
 
         ''')
-        survey.radio('2\. 처음 보는 사람들과 쉽게 이야기하거나 친해 지는 편이다.', options=['매우 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'],
-                     horizontal=True, id='q5')
+        survey_per.radio('2\. 처음 보는 사람들과 쉽게 이야기하거나 친해 지는 편이다.', options=['매우 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'],
+                     horizontal=True, id='q_p5')
         st.write('''
 
 
 
         ''')
-        survey.radio('3\. 처음 보는 사람들과 쉽게 이야기하거나 친해 지는 편이다.', options=['매우 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'],
-                     horizontal=True, id='q6')
+        survey_per.radio('3\. 처음 보는 사람들과 쉽게 이야기하거나 친해 지는 편이다.', options=['매우 그렇지 않다', '그렇지 않다', '보통이다', '그렇다', '매우 그렇다'],
+                     horizontal=True, id='q_p6')
 
 
 
