@@ -44,8 +44,13 @@ def get_response(survey, per_1, per_2):
     values_list.append(per_1)
     values_list.append(per_2)
     # st.write(values_list)
+    st.session_state['completed'] = False
     return values_list
 
 
 dbm.create_table()
-dbm.insert_response(get_response(result, per_1, per_2))
+if 'completed' not in st.session_state:
+    st.session_state['completed'] = False
+    dbm.insert_response(get_response(result, per_1, per_2))
+else:
+    st.write('이미 설문을 완료하였습니다!')

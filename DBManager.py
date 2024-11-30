@@ -58,6 +58,7 @@ def insert_response(q_list):
     cursor.execute(sql_str)
     conn.commit()
     conn.close()
+    st.session_state['completed'] = True
 
 # 데이터 조회 함수
 def get_result():

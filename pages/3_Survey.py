@@ -23,6 +23,7 @@ st.sidebar.markdown('''
     <u>AI쳇봇을 이용한 후 챗봇에 대해 느낀 당신의 생각을 알려주시기 바랍니다.</u>
     ''', unsafe_allow_html=True)
 st.sidebar.write('각 질문에 대해 "매우 그렇다(5점)"에서 <br> "매우 그렇지 않다(1점)" 사이 항목을 선택하여 주시기 바랍니다.', unsafe_allow_html=True)
+
 new_pages = survey_result.pages(6, on_submit=lambda: get_result(survey_result.to_json()))
 new_pages.submit_button = new_pages.default_btn_submit("설문완료")
 new_pages.prev_button = new_pages.default_btn_previous("이전")
@@ -31,6 +32,10 @@ new_pages.next_button = new_pages.default_btn_next("다음")
 st.markdown(
     """<style>
 div[class*="stRadio"] > label > div[data-testid="stMarkdownContainer"] > p {
+    font-size: 16px;
+    font-weight: bold;
+}
+div[class*="stMultiSelect"] > label > div[data-testid="stMarkdownContainer"] > p {
     font-size: 16px;
     font-weight: bold;
 }

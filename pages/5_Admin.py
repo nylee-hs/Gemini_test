@@ -3,7 +3,7 @@ import DBManager as dbm
 
 st.write('이 페이지는 관리자용 페이지입니다.')
 
-pw = st.text_input("비밀번호를 입력하세요.")
+pw = st.text_input("비밀번호를 입력하세요.", type='password')
 
 if pw == st.secrets['manager_pw']:
     df = dbm.get_result()
