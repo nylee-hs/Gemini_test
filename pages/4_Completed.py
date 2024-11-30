@@ -36,6 +36,11 @@ if 'p1' in st.session_state:
 def get_response(survey, per_1, per_2):
     values = survey.loc['value']
     values_list = values.tolist()
+    # print('check!!', values_list)
+    temp = values_list[49]
+    temp = ', '.join(temp)
+    # print('check!!!', temp)
+    values_list[49] = temp
     values_list.append(per_1)
     values_list.append(per_2)
     # st.write(values_list)

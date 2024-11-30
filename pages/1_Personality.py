@@ -1,6 +1,8 @@
 import streamlit as st
 import streamlit_survey as ss
 import pandas as pd
+from attr.validators import disabled
+
 
 # 사용자 성격 확인하는 함수(q_size = 첫번째 성격 설문 항목의 수)
 def user_personlaity(user_json, q_size):
@@ -10,13 +12,13 @@ def user_personlaity(user_json, q_size):
     df = df.replace('보통이다', 3)
     df = df.replace('그렇다', 4)
     df = df.replace('매우 그렇다', 5)
-    st.write(df)
+    # st.write(df)
 
-    p1_a = df.filter(like = 'mq1a_').iloc[2].sum()
-    p1_b = df.filter(like = 'mq1b_').iloc[2].sum()
-    p2_a = df.filter(like = 'mq2a_').iloc[2].sum()
-    p2_b = df.filter(like='mq2b_').iloc[2].sum()
-    st.write(p1_a, p1_b, p2_a, p2_b)
+    p1_a = df.filter(like = 'MQ1a_').iloc[2].sum()
+    p1_b = df.filter(like = 'MQ1b_').iloc[2].sum()
+    p2_a = df.filter(like = 'MQ2a_').iloc[2].sum()
+    p2_b = df.filter(like='MQ2b_').iloc[2].sum()
+    # st.write(p1_a, p1_b, p2_a, p2_b)
 
     if p1_b >= p1_a:
         p1 = 'E'
@@ -27,7 +29,7 @@ def user_personlaity(user_json, q_size):
     else:
         p2 = 'T'
 
-    st.write(p1, p2)
+    # st.write(p1, p2)
     # st.dataframe(df, use_container_width=True)
     if 'p1' not in st.session_state:
         st.session_state.p1 = p1
@@ -58,6 +60,7 @@ st.markdown(
     """<style>
 div[class*="stRadio"] > label > div[data-testid="stMarkdownContainer"] > p {
     font-size: 16px;
+    font-weight: bold;
 }
     </style>
     """, unsafe_allow_html=True)
@@ -74,7 +77,7 @@ items = pd.read_csv('static/MQ_items.csv')
 with pages:
     if pages.current == 0:
         st.markdown('### 내향성(intraversion)-외향성(extraversion) 측정 설문')
-        st.markdown('- 각 질문의 A, B 두 문항을 읽으시고 두 문항의 합이 5점이 되는 범위 안에서 "가장 동의한다(5점)", "전혀 동의하지 않는다(0점)"으로 하여 각 문항의 빈칸에 점수를 표시하여 주시기 바랍니다.')
+        st.markdown('- 각 질문의 A, B 두 문항을 읽으시고 두 문항의 합이 5점이 되는 범위 안에서 "매우 그렇다(5점)", "매우 그렇지 않다(0점)"으로 하여 각 문항의 빈칸에 점수를 표시하여 주시기 바랍니다.')
         st.markdown('- A항목의 값을 "매우 그렇다(5점)"으로 선택하였다면 B항목의 값은 자동으로 "매우 그렇지 않다(0점)으로 설정됩니다.')
         st.divider()
         counter = 1
@@ -82,10 +85,10 @@ with pages:
         for a_item, a_index, b_item, b_index in zip(items['MQ1a'], items['MQ1a_in'], items['MQ1b'], items['MQ1b_in']):
             col1, col2 = st.columns(2)
             with col1:
-                globals()['mq1a_%d'%counter] = survey_per.radio(f'{counter}-A\. {a_item}', options=options, horizontal=True, id=f'mq1a_{counter}')
+                globals()['mq1a_%d'%counter] = survey_per.radio(f'{counter}-A\. {a_item}', options=options, horizontal=True, id=f'MQ1a_{counter}')
             with col2:
                 globals()['mq1b_point%d'%counter] = 5 - options[globals()['mq1a_%d'%counter]]
-                survey_per.radio(f'{counter}-B\. {b_item}', options=options, horizontal=True, index=globals()['mq1b_point%d'%counter], id=f'mq1b_{counter}')
+                survey_per.radio(f'{counter}-B\. {b_item}', options=options, horizontal=True, index=globals()['mq1b_point%d'%counter], id=f'MQ1b_{counter}', disabled=True)
             counter += 1
             st.divider()
 
@@ -111,11 +114,11 @@ with pages:
             col1, col2 = st.columns(2)
             with col1:
                 globals()['mq2a_%d' % counter] = survey_per.radio(f'{counter}-A\. {a_item}', options=options,
-                                                                  horizontal=True, id=f'mq2a_{counter}')
+                                                                  horizontal=True, id=f'MQ2a_{counter}')
             with col2:
                 globals()['mq2b_point%d' % counter] = 5 - options[globals()['mq2a_%d' % counter]]
                 survey_per.radio(f'{counter}-B\. {b_item}', options=options, horizontal=True,
-                                 index=globals()['mq2b_point%d' % counter], id=f'mq2b_{counter}')
+                                 index=globals()['mq2b_point%d' % counter], id=f'MQ2b_{counter}', disabled=True)
             counter += 1
             st.divider()
 

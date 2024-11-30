@@ -4,8 +4,8 @@ import logging
 
 st.title('')
 st.sidebar.title('여행 도우미 챗봇 사용법')
-st.sidebar.write('1. 당신의 성격에 따라 챗봇의 성격이 자동으로 설정되었습니다.')
-st.sidebar.write('2. 자유롭게 챗봇과 대화를 해보세요.')
+st.sidebar.write('1. 앞서 응답한 내용에 따라 챗봇의 성격이 자동으로 설정되었습니다.')
+st.sidebar.write('2. 자유롭게 챗봇과 대화를 해보세요. 처음에 간단한 "안녕"이라는 인사로 시작하시면 됩니다.')
 st.sidebar.write('3. 챗봇과의 대화를 종료하고 싶으면 아래의 버튼을 눌러주세요.')
 if st.sidebar.button('대화종료', use_container_width=True):
     st.switch_page('pages/3_Survey.py')
