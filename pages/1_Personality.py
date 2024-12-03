@@ -52,7 +52,7 @@ st.sidebar.write('''
     ''')
 
 pages = survey_per.pages(2, on_submit=lambda: user_personlaity(survey_per.to_json(), 3))
-pages.submit_button = pages.default_btn_submit("설문완료")
+pages.submit_button = pages.default_btn_submit("다음 단계 진행")
 pages.prev_button = pages.default_btn_previous("이전")
 pages.next_button = pages.default_btn_next("다음")
 
@@ -74,6 +74,8 @@ options={
 }
 
 items = pd.read_csv('static/MQ_items.csv')
+st.progress(25, '현재 진행 단계: 1/4')
+st.divider()
 with pages:
     if pages.current == 0:
         st.markdown('### 내향성(intraversion)-외향성(extraversion) 측정 설문')

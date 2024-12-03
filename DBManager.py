@@ -52,9 +52,9 @@ def insert_response(q_list):
     q_list.append(now_time)
     # print(q_list)
     # q_values = ', '.join(['?' for x in q_list])
+    q_list = change_value(q_list)
     sql_str = f'INSERT INTO results ({d_label}) VALUES {tuple(q_list)}'
     # st.write(sql_str)
-    # st.write(tuple(q_list))
     cursor.execute(sql_str)
     conn.commit()
     conn.close()
@@ -66,3 +66,10 @@ def get_result():
     df = pd.read_sql_query("SELECT * FROM results", conn)
     conn.close()
     return df
+
+def change_value(q_list):
+    for i in range(50, 56):
+        print(q_list[i])
+        q_list[i] = q_list[i]+1
+        print(q_list[i])
+    return q_list

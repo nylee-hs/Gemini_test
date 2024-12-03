@@ -51,11 +51,12 @@ options={
 
 items = pd.read_csv('static/SU_items.csv').fillna('None')
 # items = items.fillna('None')
-
+st.progress(75, '현재 진행 단계: 3/4')
+st.divider()
 with new_pages:
     if new_pages.current == 0:
         st.markdown('### 인지적 태도 관련 설문')
-        st.write('변수설명')
+        # st.write('변수설명')
         st.divider()
         counter = 1
 
@@ -67,7 +68,7 @@ with new_pages:
 
     if new_pages.current == 1:
         st.markdown('### 정서적 태도 관련 설문')
-        st.write('변수설명')
+        # st.write('변수설명')
         st.divider()
         counter = 1
 
@@ -79,7 +80,7 @@ with new_pages:
 
     if new_pages.current == 2:
         st.markdown('### 인지된 신뢰성 관련 설문')
-        st.write('변수설명')
+        # st.write('변수설명')
         st.divider()
         counter = 1
 
@@ -91,7 +92,7 @@ with new_pages:
 
     if new_pages.current == 3:
         st.markdown('### 내적 유사성 관련 설문')
-        st.write('변수설명')
+        # st.write('변수설명')
         st.divider()
         counter = 1
 
@@ -103,7 +104,7 @@ with new_pages:
 
     if new_pages.current == 4:
         st.markdown('### 지각된 유용성 관련 설문')
-        st.write('변수설명')
+        # st.write('변수설명')
         st.divider()
         counter = 1
 
@@ -125,19 +126,30 @@ with new_pages:
         dq1.append('기타(없음)')
         dq1 = ', '.join(dq1)
 
-        survey_result.radio('2\. 귀하께서 생성형 AI를 사용한 기간은 어느 정도 입니까?',
-                            options = ['1개월 미만', '1개월~6개월 미만', '6개월~12개월 미만', '1년 이상'],
-                            id = 'DQ2')
-        survey_result.radio('3\. 귀하께서는 생성형 AI를 하루에 몇 시간 정도 이용하십니까? ',
-                            options=['30분 미만', '30분~1시간 미만', '1시간~3시간 미만', '3시간 이상'],
-                            id = 'DQ3')
-        survey_result.radio('4\. 귀하의 성별은?', options=['남성', '여성'], id='DQ4')
-        survey_result.radio('5\. 귀하의 연령은?', options=['20대', '30대', '40대', '50대 이상'], id='DQ5')
-        survey_result.radio('6\. 귀하의 최종학력은 어떻게 되십니까?', options=['고졸이하', '대졸(또는 대학교 재학)', '대학원졸(또는 대학원 재학)'],
-                            id='DQ6')
-        survey_result.radio('7\. 다음 보기 중 귀하께서 현재 하고 계신 일의 형태(직업)를 말씀해주시기 바랍니다.',
-                            options=['대학생/대학원생', '사무직', '자영업/개인사업','전업주부', '전문직', '교사/공무원', '구직자', '프리랜서', '기타'],
-                            id='DQ7')
+        options_dq2 = ['1개월 미만', '1개월~6개월 미만', '6개월~12개월 미만', '1년 이상']
+        dq2 = survey_result.radio('2\. 귀하께서 생성형 AI를 사용한 기간은 어느 정도 입니까?',
+                            options = range(len(options_dq2)),
+                            id = 'DQ2', format_func=options_dq2.__getitem__)
+
+        options_dq3 = ['30분 미만', '30분~1시간 미만', '1시간~3시간 미만', '3시간 이상']
+        dq3 = survey_result.radio('3\. 귀하께서는 생성형 AI를 하루에 몇 시간 정도 이용하십니까? ',
+                            options = range(len(options_dq3)),
+                            id = 'DQ3', format_func=options_dq3.__getitem__)
+
+        options_dq4 = ['남성', '여성']
+        dq4 = survey_result.radio('4\. 귀하의 성별은?', options = range(len(options_dq4)), id='DQ4', format_func=options_dq4.__getitem__)
+
+        options_dq5 = ['20대', '30대', '40대', '50대 이상']
+        dq5 = survey_result.radio('5\. 귀하의 연령은?', options=range(len(options_dq5)), id='DQ5', format_func=options_dq5.__getitem__)
+
+        options_dq6 = ['고졸이하', '대졸(또는 대학교 재학)', '대학원졸(또는 대학원 재학)']
+        dq6 = survey_result.radio('6\. 귀하의 최종학력은 어떻게 되십니까?', options=range(len(options_dq6)),
+                            id='DQ6', format_func=options_dq6.__getitem__)
+
+        options_dq7 = ['대학생/대학원생', '사무직', '자영업/개인사업','전업주부', '전문직', '교사/공무원', '구직자', '프리랜서', '기타']
+        dq7 = survey_result.radio('7\. 다음 보기 중 귀하께서 현재 하고 계신 일의 형태(직업)를 말씀해주시기 바랍니다.',
+                            options=range(len(options_dq7)),
+                            id='DQ7', format_func=options_dq7.__getitem__)
 
 
 

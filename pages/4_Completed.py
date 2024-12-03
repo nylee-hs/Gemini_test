@@ -1,7 +1,10 @@
 import streamlit as st
 import pandasql as psql
 import DBManager as dbm
+import pprint
 
+st.progress(100, '현재 진행 단계: 4/4')
+st.divider()
 st.markdown(
     '''
     ## 설문에 참여해 주셔서 감사합니다!  
@@ -14,6 +17,8 @@ st.markdown(
     감사합니다!   
     '''
 )
+
+st.balloons()
 
 result = ''
 per_1 = ''
@@ -51,6 +56,7 @@ def get_response(survey, per_1, per_2):
 dbm.create_table()
 if 'completed' not in st.session_state:
     st.session_state['completed'] = False
+    # pprint.pprint(st.session_state.r1.to_json())
     dbm.insert_response(get_response(result, per_1, per_2))
 else:
     st.write('이미 설문을 완료하였습니다!')

@@ -1,18 +1,35 @@
 import google.generativeai as genai
 import streamlit as st
-import logging
+from annotated_text import annotated_text
 
 st.title('')
 st.sidebar.title('여행 도우미 챗봇 사용법')
 st.sidebar.write('1. 앞서 응답한 내용에 따라 챗봇의 성격이 자동으로 설정되었습니다.')
 st.sidebar.write('2. 자유롭게 챗봇과 대화를 해보세요. 처음에 간단한 "안녕"이라는 인사로 시작하시면 됩니다.')
-st.sidebar.write('3. 챗봇과의 대화를 종료하고 싶으면 아래의 버튼을 눌러주세요.')
-if st.sidebar.button('대화종료', use_container_width=True):
-    st.switch_page('pages/3_Survey.py')
+st.sidebar.write('3. 챗봇과의 대화를 종료하고 싶으면 대화창 아래의 "대화종료" 버튼을 눌러주세요.')
+# if st.sidebar.button('대화종료', use_container_width=True):
+#     st.switch_page('pages/3_Survey.py')
 
-st.subheader('저는 여행 계획을 도와줄 AI챗봇 🤖 입니다.')
-st.subheader('무엇을 도와줄까요?', divider=True)
-# st.markdown('우선 당신의 성격을 물어볼 예정입니다. 성격에 대해 (외향적 또는 내향적), (감정적 또는 사실적) 중 하나씩 선택하여 입력해주면 됩니다. ')
+st.progress(50, '현재 진행 단계: 2/4')
+st.divider()
+st.markdown('###### 여행도우미 챗봇 사용법(필독)')
+st.markdown('앞서 응답한 내용에 따라 챗봇의 성격이 자동으로 설정되었습니다.')
+annotated_text('자유롭게 챗봇과 대화를 해보세요. 처음에 간단한 ', ("안녕", '', '#afa'), ' 이라는 인사로 시작하시면 됩니다.')
+annotated_text(('주의사항:', '', '#8ef'), ' 대화를 종료하기 위해서는 ', ('대화종료', '', '#faf'), ' 버튼을 눌러야 합니다.')
+# st.markdown(':blue-background[주의사항: 대화를 종료하기 위해서는 꼭! 왼쪽의 사이드바를 열어 ":red[대화종료]" 버튼을 눌러야 합니다.]')
+annotated_text('대화종료 버튼을 누른신 후 ', ('사용 후 설문페이지', '', '#fea'), ' 로 이동하여 설문을 완료해주시면 됩니다.')
+st.divider()
+st.markdown('#### :gray-background[저는 여행 계획을 도와줄 AI챗봇 🤖 입니다. 무엇을 도와줄까요?]')
+# st.markdown(':blue-background[주의사항: 대화를 종료하기 위해서는 꼭! 왼쪽의 사이드바를 열어 ":red[대화종료]" 버튼을 눌러야 합니다.]')
+# st.markdown(':red-background[대화종료 버튼을 누르신 후 사용 후 설문페이지로 이동하여 설문을 완료해주시면 됩니다.]')
+# st.markdown('''
+#             :blue-background[대화를 종료하기 위해서는 꼭! 왼쪽의 사이드바를 열어 '대화종료' 버튼을 눌러야 합니다.]
+# ''')
+
+#             '1. 앞서 응답한 내용에 따라 챗봇의 성격이 자동으로 설정되었습니다.')
+# st.markdown('2. 자유롭게 챗봇과 대화를 해보세요. 처음에 간단한 "안녕"이라는 인사로 시작하시면 됩니다.')
+# st.markdown('3. 챗봇과의 대화를 종료하고 싶으면 아래의 버튼을 눌러주세요.')
+
 api_key = st.secrets['google_api_key']
 
 # def hello_msg():
@@ -70,3 +87,6 @@ if prompt := st.chat_input("메시지를 입력하세요."):
             for chunk in response:
                 full_response += chunk.text
                 message_placeholder.markdown(full_response)
+
+if st.button('대화종료', use_container_width=False):
+    st.switch_page('pages/3_Survey.py')
